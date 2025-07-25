@@ -39,6 +39,12 @@ brew install pandoc ffmpeg
 ```
 
 ---
+##  Configuration
+
+You can easily change the reading speed and the MP3 bitrate by editing the following variables at the top of the latexToAudio.sh script:
+* **SPEED**: Words per minute (default: 175).
+* **BITRATE**: The bitrate for the output MP3 file (default: 256k).
+
 
 ## Future Work
 1.  **Linux Support**: Create a version of the script that works on Linux. This would involve replacing the macOS-specific say command with a Linux-friendly text-to-speech engine like espeak-ng or a more advanced one like Coqui TTS.
