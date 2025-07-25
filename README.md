@@ -41,6 +41,6 @@ brew install pandoc ffmpeg
 ---
 
 ## Future Work
-1.  **Create a version of the script that works on Linux. This would involve replacing the macOS-specific say command with a Linux-friendly text-to-speech engine like espeak-ng or a more advanced one like Coqui TTS.
-2.  **Windows Support: Investigate and implement a solution for Windows users.
+1.  **Linux Support**: Create a version of the script that works on Linux. This would involve replacing the macOS-specific say command with a Linux-friendly text-to-speech engine like espeak-ng or a more advanced one like Coqui TTS.
+2.  **Windows Support**: Investigate and implement a solution for Windows users.
 
