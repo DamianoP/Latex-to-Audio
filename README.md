@@ -50,3 +50,17 @@ You can easily change the reading speed and the MP3 bitrate by editing the follo
 1.  **Linux Support**: Create a version of the script that works on Linux. This would involve replacing the macOS-specific say command with a Linux-friendly text-to-speech engine like espeak-ng or a more advanced one like Coqui TTS.
 2.  **Windows Support**: Investigate and implement a solution for Windows users.
 
+
+
+## Disclaimer
+This software is provided "as-is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+The responsibility for the use of this script and any audio files it generates rests solely with the end-user. The author is not responsible for the content of the generated files or for how they are used, shared, or distributed.
+In no event shall the author or copyright holders be liable for any claim, damages, or other liability arising from the use of this software. Users must ensure that their use of the script and its output complies with all applicable laws, including but not limited to copyright and intellectual property rights. The author of this code assumes no liability for any misuse or copyright infringement committed by the user.
+
+
+
+
+
+
+
+
