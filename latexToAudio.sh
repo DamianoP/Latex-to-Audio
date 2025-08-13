@@ -90,41 +90,23 @@ perl -00 -pe '
 ' "$CLEAN_TEX_STEP2" > "$FINAL_FULL_TEXT"
 
 echo "--- Step 4: Splitting text into section files ---"
+# This awk script splits the text by the 'SPLIT_HERE' marker.
+# It saves the preamble (text before the first section) as section_00,
+# and subsequent sections as section_01, section_02, etc.
 awk -v dir="$OUTPUT_DIR" '
   BEGIN {
-    # Flag to track if we have passed the first section marker.
-    # We will only start writing after the first marker is found.
-    start_writing = 0; 
-    file_count = 0;
+    RS="SPLIT_HERE";
+    file_count=0;
   }
   {
-    if (match($0, /SPLIT_HERE/)) {
-      # This is a line with a marker.
+    # Trim leading/trailing whitespace from the record
+    gsub(/^[ \t\n]+/, "", $0);
+    gsub(/[ \t\n]+$/, "", $0);
 
-      # Extract content before and after the marker.
-      before_marker = substr($0, 1, RSTART - 1);
-      after_marker = substr($0, RSTART + RLENGTH);
-
-      # If we were already writing, the content before the marker belongs to the previous section.
-      if (start_writing == 1 && length(before_marker) > 0) {
-        print before_marker >> out_file;
-      }
-      
-      # Now, we start a new section file.
-      start_writing = 1; # Enable writing from now on.
-      file_count++;
-      out_file = sprintf("%s/section_%02d", dir, file_count);
-      
-      # Print the content after the marker to the new file.
-      if (length(after_marker) > 0) {
-        print after_marker >> out_file;
-      }
-    } else {
-      # This is a line without a marker.
-      # Only print it if we have passed the first marker.
-      if (start_writing == 1) {
-        print >> out_file;
-      }
+    if (length($0) > 0) {
+        out_file = sprintf("%s/section_%02d", dir, file_count);
+        print $0 > out_file;
+        file_count++;
     }
   }
 ' "$FINAL_FULL_TEXT"
@@ -172,12 +154,15 @@ fi
 # Let's rename the final files for clarity.
 echo "--- Step 7: Renaming final files ---"
 for f in "${OUTPUT_DIR}"/section_*; do
+    # Skip .mp3 files in this loop, we only want to rename the text files.
+    if [[ "$f" == *.mp3 ]]; then
+        continue
+    fi
+
     if [ -f "$f" ]; then
-        num=$(echo "$f" | sed 's/.*section_//')
-        mv "$f" "${OUTPUT_DIR}/sezione_${num}.txt"
-        if [ -f "${f}.mp3" ]; then
-            mv "${f}.mp3" "${OUTPUT_DIR}/sezione_${num}.mp3"
-        fi
+        num=$(basename "$f" | sed 's/section_//')
+        # Add .txt extension to the text files (e.g., section_01 -> section_01.txt)
+        mv "$f" "${OUTPUT_DIR}/section_${num}.txt"
     fi
 done
 
